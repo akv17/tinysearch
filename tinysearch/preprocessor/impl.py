@@ -13,5 +13,7 @@ class AlphanumericPreprocessor(IPreprocessor):
     REGEXP = re.compile(r'\W', flags=re.DOTALL)
 
     def run(self, text):
-        text = self.REGEXP.sub('', text).lower().strip()
+        tokens = text.split()
+        tokens = [self.REGEXP.sub('', t).lower().strip() for t in tokens]
+        text = ' '.join(t for t in tokens)
         return text

@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from typing import Any
 
 
 @dataclass
@@ -7,5 +8,16 @@ class Document:
     text: str
 
 
+@dataclass
+class MatrixEncoding:
+    keys: Any
+    matrix: Any
+    vector: Any
+    texts: Any
+
+
+@dataclass
 class Score:
-    pass
+    key: str
+    score: float
+    text: str
