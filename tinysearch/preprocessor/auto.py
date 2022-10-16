@@ -13,7 +13,7 @@ class AutoPreprocessor:
     @classmethod
     def create(cls, config):
         type_ = config['type']
-        params = config['params']
+        params = config.get('params', {})
         cls_ = cls._DISPATCH[type_]
         ob = cls_(**params)
         return ob

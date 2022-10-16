@@ -33,5 +33,5 @@ class FileCorpusFactory(ICorpusFactory):
                 text = f.read()
             doc = Document(key=key, text=text)
             docs.append(doc)
-        corpus = FileCorpus(documents=docs)
-        return corpus
+        ob = FileCorpus(documents=docs)
+        return ob
