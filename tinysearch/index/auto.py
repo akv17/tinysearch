@@ -1,15 +1,15 @@
-from .document_term import DocumentTermEncoderFactory
+from .doc_term import DocumentTermIndexFactory
 
 
-class AutoEncoder:
+class AutoIndex:
     _DISPATCH = {
-        'document_term': DocumentTermEncoderFactory
+        'doc_term': DocumentTermIndexFactory
     }
 
     @classmethod
     def create(cls, config, preprocessor):
         type_ = config['type']
-        params = config['params']
+        params = config.get('params', {})
         factory = cls._DISPATCH[type_]
         ob = factory(preprocessor=preprocessor, **params).create()
         return ob

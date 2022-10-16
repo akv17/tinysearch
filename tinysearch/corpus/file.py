@@ -21,13 +21,13 @@ class FileCorpus(ICorpus):
 
 class FileCorpusFactory(ICorpusFactory):
 
-    def __init__(self, root):
-        self.root = root
+    def __init__(self, src):
+        self.src = src
 
     def create(self):
         docs = []
-        for fn in os.listdir(self.root):
-            fp = os.path.join(self.root, fn)
+        for fn in os.listdir(self.src):
+            fp = os.path.join(self.src, fn)
             key, _ = os.path.splitext(fn)
             with open(fp, 'r', encoding='utf-8') as f:
                 text = f.read()
