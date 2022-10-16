@@ -1,6 +1,6 @@
 import os
 
-from .abstract import ICorpus, ICorpusBuilder
+from .abstract import ICorpus, ICorpusFactory
 from ..data import Document
 
 
@@ -19,7 +19,7 @@ class FileCorpus(ICorpus):
         return self.documents[item]
 
 
-class FileCorpusBuilder:
+class FileCorpusFactory(ICorpusFactory):
 
     def __init__(self, root):
         self.root = root

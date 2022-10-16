@@ -13,7 +13,7 @@ class ICorpus(ABC):
     def __getitem__(self, item): pass
 
 
-class ICorpusBuilder(ABC):
+class ICorpusFactory(ABC):
 
     @abstractmethod
     def create(self): pass
