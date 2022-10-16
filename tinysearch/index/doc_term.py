@@ -1,7 +1,10 @@
 import os
 import pickle
 
+import numpy as np
 from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
+
+from ..data import MatrixEncoding
 
 
 class DocumentTermIndex:
@@ -13,33 +16,32 @@ class DocumentTermIndex:
         self._data = None
         self._keys = None
         self._token_keys = None
+        self._texts = None
 
     def train(self, documents):
         keys = [d.key for d in documents]
-        texts = [d.text for d in documents]
-        texts = [self.preprocessor.run(t) for t in texts]
+        texts_orig = [d.text for d in documents]
+        texts = [self.preprocessor.run(t) for t in texts_orig]
         self._data = self.vectorizer.fit_transform(texts)
         self._keys = keys
         self._token_keys = self.vectorizer.get_feature_names_out()
+        self._texts = texts_orig
 
     def encode(self, document):
         text = document.text
-        text = self.preprocessor(text)
-        data = self.vectorizer.transform([text])
-        return data
-
-    def encode_batch(self, documents):
-        texts = [d.text for d in documents]
-        texts = [self.preprocessor.run(t) for t in texts]
-        data = self.vectorizer.transform(texts)
-        return data
+        text = self.preprocessor.run(text)
+        vector = self.vectorizer.transform([text])
+        enc = MatrixEncoding(keys=self._keys, matrix=self._data, vector=vector, texts=self._texts)
+        return enc
 
     def save(self, dst):
         fp = os.path.join(dst, 'index.pkl')
         data = {
-            'data': self._data,
-            'keys': self._keys,
-            'token_keys': self._token_keys
+            'vectorizer': self.vectorizer,
+            '_data': self._data,
+            '_keys': np.array(self._keys),
+            '_token_keys': np.array(self._token_keys),
+            '_texts': np.array(self._texts)
         }
         with open(fp, 'wb') as f:
             pickle.dump(data, f)
@@ -64,4 +66,10 @@ class DocumentTermIndexFactory:
         return ob
 
     def load(self, src):
-        pass
+        fp = os.path.join(src, 'index.pkl')
+        with open(fp, 'rb') as f:
+            data = pickle.load(f)
+        ob = DocumentTermIndex(vectorizer=None, preprocessor=self.preprocessor)
+        for k, v in data.items():
+            setattr(ob, k, v)
+        return ob
