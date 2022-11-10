@@ -40,7 +40,7 @@ class API:
             for i, score in enumerate(scores):
                 doc = corpus[score.id]
                 text = doc.text
-                text_too_long = len(text) > 50
-                text = text[:50]
+                text_too_long = len(text) > 80
+                text = text[:80]
                 text = text + '...' if text_too_long else text
                 print(f'\t{i+1}. {repr(text)} [{score.score:.4f}]')

@@ -23,21 +23,25 @@ class Engine:
         fp = os.path.join(src, 'data.pkl')
         with open(fp, 'rb') as f:
             data = pickle.load(f)
-        tfidf = data.pop('tfidf')
+        matrix = data.pop('matrix')
+        ids = data.pop('ids')
         engine = cls(**data)
-        engine._tfidf = tfidf
+        engine._matrix = matrix
+        engine._ids = ids
         return engine
 
     def __init__(self, vectorizer, preprocessor):
         self.vectorizer = vectorizer
         self.preprocessor = preprocessor
 
-        self._tfidf = None
+        self._matrix = None
+        self._ids = None
 
     def train(self, corpus):
         texts = [self.preprocessor.run(d.text) for d in corpus]
         self.vectorizer.fit(texts)
-        self._tfidf = self.vectorizer.transform(texts)
+        self._matrix = self.vectorizer.transform(texts)
+        self._ids = np.array(corpus.ids)
 
     def save(self, dst):
         os.makedirs(dst, exist_ok=True)
@@ -45,7 +49,8 @@ class Engine:
         data = {
             'vectorizer': self.vectorizer,
             'preprocessor': self.preprocessor,
-            'tfidf': self._tfidf
+            'matrix': self._matrix,
+            'ids': self._ids,
         }
         with open(fp, 'wb') as f:
             pickle.dump(data, f)
@@ -53,12 +58,12 @@ class Engine:
     def search(self, text, k=1):
         text = self.preprocessor.run(text)
         vector = self.vectorizer.transform([text])
-        scores = cosine_similarity(self._tfidf, vector)
+        scores = cosine_similarity(self._matrix, vector)
         scores = scores.ravel()
         mask = np.argsort(scores)
         mask = mask[-k:][::-1]
         scores = scores[mask]
-        mask = mask.tolist()
         scores = scores.tolist()
-        scores = [Score(id=i, score=s) for i, s in zip(mask, scores)]
+        ids = self._ids[mask].tolist()
+        scores = [Score(id=i, score=s) for i, s in zip(ids, scores)]
         return scores
