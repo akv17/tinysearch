@@ -66,8 +66,6 @@ class Engine:
         with torch.no_grad():
             encoded_input = self.tokenizer(text, return_tensors='pt')
             output = self.model(**encoded_input)
-            breakpoint()
             output = output.pooler_output
-
             vector = output.numpy()[0]
         return vector

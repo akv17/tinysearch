@@ -2,11 +2,13 @@ from .data import Corpus
 from .tfidf import Engine as TfidfEngine
 from .bert import Engine as BertEngine
 from .sm import Engine as SmEngine
+from .bm25 import Engine as Bm25Engine
 
 _ENGINE_DISPATCH = {
     'tfidf': TfidfEngine,
     'bert': BertEngine,
     'sm': SmEngine,
+    'bm25': Bm25Engine,
 }
 
 
