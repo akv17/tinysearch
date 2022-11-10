@@ -1,8 +1,12 @@
 from .data import Corpus
 from .tfidf import Engine as TfidfEngine
+from .bert import Engine as BertEngine
+from .sm import Engine as SmEngine
 
 _ENGINE_DISPATCH = {
-    'tfidf': TfidfEngine
+    'tfidf': TfidfEngine,
+    'bert': BertEngine,
+    'sm': SmEngine,
 }
 
 
@@ -30,11 +34,11 @@ class API:
             query = query.strip()
             if query == 'q!':
                 break
-            scores = engine.search(query, k=2)
+            scores = engine.search(query, k=5)
             for i, score in enumerate(scores):
                 doc = corpus[score.id]
                 text = doc.text
-                text_too_long = len(text) > 30
-                text = text[:30]
+                text_too_long = len(text) > 50
+                text = text[:50]
                 text = text + '...' if text_too_long else text
                 print(f'\t{i+1}. {repr(text)} [{score.score:.4f}]')
