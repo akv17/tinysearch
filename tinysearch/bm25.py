@@ -73,15 +73,15 @@ class Engine:
         avdl = len_d.mean()
 
         # расчет числителя
-        A = idf * tf * (self.k_const + 1)
+        a = idf * tf * (self.k_const + 1)
 
         # расчет знаменателя
-        B_1 = (self.k_const * (1 - self.b_const + self.b_const * len_d / avdl))
-        B_1 = np.expand_dims(B_1, axis=-1)
-        B = tf + B_1
+        b_1 = (self.k_const * (1 - self.b_const + self.b_const * len_d / avdl))
+        b_1 = np.expand_dims(b_1, axis=-1)
+        b = tf + b_1
 
         # BM25\n"
-        matrix = A / B
+        matrix = a / b
         self._matrix = matrix
         self._ids = np.array(corpus.ids)
 
