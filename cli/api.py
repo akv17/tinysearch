@@ -1,9 +1,8 @@
-import os
-
 import click
 import yaml
 
 from tinysearch.api import API
+from .mvc import Factory as SearchControllerFactory
 
 
 def _load_config(fp):
@@ -21,16 +20,20 @@ def _dispatch():
 @click.argument('config')
 def train(config):
     config = _load_config(config)
-    api = API()
-    api.train(config)
+    api = API(config)
+    api.train_engine()
 
 
 @_dispatch.command()
 @click.argument('config')
 def search(config):
     config = _load_config(config)
-    api = API()
-    api.predict(config)
+    api = API(config)
+    corpus = api.load_corpus()
+    engine = api.load_engine()
+    controller_factory = SearchControllerFactory(corpus=corpus, engine=engine)
+    controller = controller_factory.create()
+    controller.run()
 
 
 if __name__ == '__main__':
