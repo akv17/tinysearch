@@ -1,7 +1,7 @@
 import re
 
 
-class SimplePreprocessor:
+class Preprocessor:
     REGEXP = re.compile(r'\W', flags=re.DOTALL)
 
     def run(self, text):

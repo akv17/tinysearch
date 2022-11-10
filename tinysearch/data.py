@@ -1,5 +1,4 @@
 from dataclasses import dataclass
-from typing import Any
 
 
 @dataclass
@@ -15,15 +14,6 @@ class Score:
 
 
 class Corpus:
-
-    @classmethod
-    def load(cls, fp):
-        with open(fp, 'r') as f:
-            lines = f.readlines()
-        docs = [Document(id=str(i), text=ln.strip()) for i, ln in enumerate(lines) if ln.strip()]
-        docs = sorted(docs, key=lambda _d: _d.id)
-        corpus = cls(docs)
-        return corpus
 
     def __init__(self, documents):
         self.documents = documents
