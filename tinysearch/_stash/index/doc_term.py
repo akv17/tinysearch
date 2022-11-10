@@ -4,7 +4,7 @@ import pickle
 import numpy as np
 from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
 
-from ..data import MatrixEncoding
+from tinysearch.data import MatrixEncoding
 
 
 class DocumentTermIndex:

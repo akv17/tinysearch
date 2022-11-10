@@ -3,7 +3,7 @@ import os
 import click
 import yaml
 
-from tinysearch.api import TinysearchAPI
+from tinysearch.api import API
 
 
 def _load_config(fp):
@@ -21,17 +21,16 @@ def _dispatch():
 @click.argument('config')
 def train(config):
     config = _load_config(config)
-    api = TinysearchAPI()
-    api.train(config=config)
+    api = API()
+    api.train(config)
 
 
 @_dispatch.command()
-@click.argument('src')
-def predict(src):
-    config = os.path.join(src, 'config.yaml')
+@click.argument('config')
+def search(config):
     config = _load_config(config)
-    api = TinysearchAPI()
-    api.predict(src=src, config=config)
+    api = API()
+    api.predict(config)
 
 
 if __name__ == '__main__':

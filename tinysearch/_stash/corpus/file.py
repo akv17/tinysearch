@@ -1,7 +1,7 @@
 import os
 
 from .abstract import ICorpus, ICorpusFactory
-from ..data import Document
+from tinysearch.data import Document
 
 
 class FileCorpus(ICorpus):

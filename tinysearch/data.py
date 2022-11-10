@@ -4,20 +4,34 @@ from typing import Any
 
 @dataclass
 class Document:
-    key: str
+    id: str
     text: str
-
-
-@dataclass
-class MatrixEncoding:
-    keys: Any
-    matrix: Any
-    vector: Any
-    texts: Any
 
 
 @dataclass
 class Score:
-    key: str
+    id: str
     score: float
-    text: str
+
+
+class Corpus:
+
+    @classmethod
+    def load(cls, fp):
+        with open(fp, 'r') as f:
+            lines = f.readlines()
+        docs = [Document(id=str(i), text=ln.strip()) for i, ln in enumerate(lines) if ln.strip()]
+        corpus = cls(docs)
+        return corpus
+
+    def __init__(self, documents):
+        self.documents = documents
+
+    def __len__(self):
+        return len(self.documents)
+
+    def __iter__(self):
+        return iter(self.documents)
+
+    def __getitem__(self, item):
+        return self.documents[item]

@@ -1,6 +1,6 @@
 import numpy as np
 
-from ..data import Score
+from tinysearch.data import Score
 
 
 class MatrixEngine:
