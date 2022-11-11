@@ -1,0 +1,12 @@
+corpus:
+  type: "single_file"
+  params:
+    path: "assets/data/pyzen.txt"
+engine:
+  dst: "assets/trained/pyzen_vectorized"
+  type: "vectorized"
+  params:
+    preprocessor:
+      type: "simple"
+    vectorizer:
+      type: "tfidf"
