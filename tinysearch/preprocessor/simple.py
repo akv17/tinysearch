@@ -1,6 +1,6 @@
 import re
 
-from ..abstract import IPreprocessor
+from ..interface import IPreprocessor
 
 
 class Preprocessor(IPreprocessor):

@@ -1,6 +1,6 @@
 from tinysearch.data import Document, Corpus
 
-from ..abstract import ICorpusBuilder
+from ..interface import ICorpusBuilder
 
 
 class Builder(ICorpusBuilder):

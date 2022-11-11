@@ -7,7 +7,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 
 from .common.rank import rank_ids_by_scores
 from ..preprocessor.factory import Factory as PreprocessorFactory
-from ..abstract import IEngine
+from ..interface import IEngine
 
 VECTORIZER_DISPATCH = {
     'tfidf': TfidfVectorizer,

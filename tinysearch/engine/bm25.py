@@ -6,7 +6,7 @@ from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
 
 from .common.rank import rank_ids_by_scores
 from ..preprocessor.factory import Factory as PreprocessorFactory
-from ..abstract import IEngine
+from ..interface import IEngine
 
 
 class Engine(IEngine):
