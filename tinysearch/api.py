@@ -1,3 +1,7 @@
+"""
+Основной публичный интерфейс для взаимодействия с приложением
+"""
+
 import logging
 
 from .corpus.factory import Factory as CorpusFactory
@@ -5,6 +9,15 @@ from .engine.factory import Factory as EngineFactory
 
 
 class API:
+    """
+    Публичный интерфейс для взаимодействия с приложением aka главная точка входа.
+    Предосталвяет возможность:
+        1. Загрузить корпус по конфигу
+        2. Загрузить движок по конфигу
+        3. Получить доступ к корпусу
+        4. Получить доступ к движку
+        5. Индексировать движок по конфигу и сохранить результат
+    """
 
     def __init__(self, config):
         self.config = config
@@ -14,10 +27,18 @@ class API:
         self.engine = None
 
     def load(self):
+        """
+        Загрузить корпус и движок по конфигу
+        :return:
+        """
         self.load_corpus()
         self.load_engine()
 
     def load_corpus(self):
+        """
+        Загрузить корпус по конфигу
+        :return:
+        """
         self.logger.info('Loading corpus...')
         corpus_factory = CorpusFactory(self.config['corpus'])
         corpus = corpus_factory.create()
@@ -26,6 +47,10 @@ class API:
         self.corpus = corpus
 
     def load_engine(self):
+        """
+        Загрузить движок по конфигу
+        :return:
+        """
         self.logger.info('Loading engine...')
         engine_factory = EngineFactory(self.config['engine'])
         self.logger.info(f'Loading...')
@@ -34,6 +59,10 @@ class API:
         self.engine = engine
 
     def train(self):
+        """
+        Индексировать движок по конфигу и сохранить результат
+        :return:
+        """
         logger = self.logger
         config = self.config
         logger.info('Training engine...')

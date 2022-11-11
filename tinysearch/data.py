@@ -1,8 +1,15 @@
+"""
+Структуры данных
+"""
+
 from dataclasses import dataclass
 
 
 @dataclass
 class Document:
+    """
+    Проиндексированный документ
+    """
     id: str
     text: str
     path: str
@@ -10,11 +17,18 @@ class Document:
 
 @dataclass
 class Score:
+    """
+    Результат поискового ранжирования для документа
+    """
     id: str
     score: float
 
 
 class Corpus:
+    """
+    Корпус документов для индексирования.
+    Хранит документы и предоставляет возможность итерации по документам и взятия документа по айди.
+    """
 
     def __init__(self, documents):
         self.documents = documents
