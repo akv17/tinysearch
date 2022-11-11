@@ -5,6 +5,7 @@ from dataclasses import dataclass
 class Document:
     id: str
     text: str
+    path: str
 
 
 @dataclass
