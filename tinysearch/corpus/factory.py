@@ -8,6 +8,9 @@ DISPATCH = {
 
 
 class Factory:
+    """
+    Загружает экземпляр корпуса по конфигу.
+    """
 
     def __init__(self, config):
         self.config = config

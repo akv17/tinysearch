@@ -4,6 +4,9 @@ from ..interface import ICorpusBuilder
 
 
 class Builder(ICorpusBuilder):
+    """
+    Загружает корпус из одного файла, где одна строка считается одним документом
+    """
 
     def __init__(self, path):
         self.path = path

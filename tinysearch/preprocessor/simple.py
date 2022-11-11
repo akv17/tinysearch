@@ -4,6 +4,10 @@ from ..interface import IPreprocessor
 
 
 class Preprocessor(IPreprocessor):
+    """
+    Приводит строку в нижний регистр и удаляет всю пунктуацию
+    """
+
     REGEXP = re.compile(r'\W', flags=re.DOTALL)
 
     def run(self, text):

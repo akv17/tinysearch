@@ -6,6 +6,11 @@ _DISPATCH = {
 
 
 class Factory:
+    """
+    Создает экземпляр препроцессора по конфигу.
+    Доступные реализации:
+        - 'simple'
+    """
 
     def __init__(self, config):
         self.config = config
