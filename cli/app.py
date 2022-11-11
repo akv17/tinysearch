@@ -21,7 +21,8 @@ def _dispatch():
 def train(config):
     config = _load_config(config)
     api = API(config)
-    api.train_engine()
+    api.load()
+    api.train()
 
 
 @_dispatch.command()
@@ -30,9 +31,8 @@ def train(config):
 def search(config, k=5):
     config = _load_config(config)
     api = API(config)
-    corpus = api.load_corpus()
-    engine = api.load_engine()
-    controller_factory = SearchControllerFactory(corpus=corpus, engine=engine, k=k)
+    api.load()
+    controller_factory = SearchControllerFactory(api=api, k=k)
     controller = controller_factory.create()
     controller.run()
 

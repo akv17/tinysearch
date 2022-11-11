@@ -61,13 +61,12 @@ class Controller:
 
 class Factory:
 
-    def __init__(self, corpus, engine, k=5):
-        self.corpus = corpus
-        self.engine = engine
+    def __init__(self, api, k=5):
+        self.api = api
         self.k = k
 
     def create(self):
-        model = Model(self.engine, k=self.k)
-        view = View(self.corpus)
+        model = Model(self.api.engine, k=self.k)
+        view = View(self.api.corpus)
         controller = Controller(model=model, view=view)
         return controller
