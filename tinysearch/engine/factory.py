@@ -1,9 +1,11 @@
 from .vectorized import Engine as VectorizedEngine
 from .bm25 import Engine as BM25Engine
+from .nn import Engine as NNEngine
 
 DISPATCH = {
     'vectorized': VectorizedEngine,
-    'bm25': BM25Engine
+    'bm25': BM25Engine,
+    'nn': NNEngine
 }
 
 
