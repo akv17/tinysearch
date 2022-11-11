@@ -5,9 +5,14 @@ _DISPATCH = {
 }
 
 
-def create_preprocessor(config):
-    type_ = config['type']
-    params = config.get('params', {})
-    type_ = _DISPATCH[type_]
-    ob = type_(**params)
-    return ob
+class Factory:
+
+    def __init__(self, config):
+        self.config = config
+
+    def create(self):
+        type_ = self.config['type']
+        params = self.config.get('params', {})
+        type_ = _DISPATCH[type_]
+        ob = type_(**params)
+        return ob
