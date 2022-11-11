@@ -4,7 +4,7 @@ import pickle
 import numpy as np
 from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
 
-from .utils.rank import rank_ids_by_scores
+from .common.rank import rank_ids_by_scores
 from ..preprocessor.factory import Factory as PreprocessorFactory
 
 
