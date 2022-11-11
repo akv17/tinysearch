@@ -2,7 +2,7 @@ class Model:
 
     def __init__(self, engine, k=5):
         self.engine = engine
-        self.k = 5
+        self.k = k
 
     def run(self, text):
         scores = self.engine.search(text=text, k=self.k)
@@ -61,12 +61,13 @@ class Controller:
 
 class Factory:
 
-    def __init__(self, corpus, engine):
+    def __init__(self, corpus, engine, k=5):
         self.corpus = corpus
         self.engine = engine
+        self.k = k
 
     def create(self):
-        model = Model(self.engine)
+        model = Model(self.engine, k=self.k)
         view = View(self.corpus)
         controller = Controller(model=model, view=view)
         return controller

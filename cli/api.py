@@ -26,12 +26,13 @@ def train(config):
 
 @_dispatch.command()
 @click.argument('config')
-def search(config):
+@click.option('--k', type=int, default=5)
+def search(config, k=5):
     config = _load_config(config)
     api = API(config)
     corpus = api.load_corpus()
     engine = api.load_engine()
-    controller_factory = SearchControllerFactory(corpus=corpus, engine=engine)
+    controller_factory = SearchControllerFactory(corpus=corpus, engine=engine, k=k)
     controller = controller_factory.create()
     controller.run()
 
