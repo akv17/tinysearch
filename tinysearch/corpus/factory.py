@@ -1,7 +1,9 @@
 from .single_file import Factory as SingleFileFactory
+from .multi_file import Factory as MultiFileFactory
 
 DISPATCH = {
-    'single_file': SingleFileFactory
+    'single_file': SingleFileFactory,
+    'multi_file': MultiFileFactory,
 }
 
 
