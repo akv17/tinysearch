@@ -1,3 +1,6 @@
+import time
+
+
 class Model:
 
     def __init__(self, engine, k=5):
@@ -5,9 +8,11 @@ class Model:
         self.k = k
 
     def run(self, text):
+        start = time.perf_counter()
         scores = self.engine.search(text=text, k=self.k)
+        runtime = time.perf_counter() - start
         scores = [s for s in scores if s.score > 0]
-        return scores
+        return scores, runtime
 
 
 class View:
@@ -16,7 +21,7 @@ class View:
         self.corpus = corpus
         self.text_size = text_size
 
-    def run(self, scores):
+    def run(self, scores, runtime):
         if not scores:
             print('\tNothing found...')
             return
@@ -26,7 +31,8 @@ class View:
             text_too_long = len(text) > self.text_size
             text = text[:self.text_size]
             text = text + '...' if text_too_long else text
-            print(f'\t{i+1}. {repr(text)} [{score.score:.4f}]')
+            print(f'\t{i+1}. {repr(text)} [{score.score:.2f}]')
+        print(f'time: {runtime:.4f} s.')
 
 
 class Controller:
@@ -41,8 +47,8 @@ class Controller:
             query = self._prompt()
             if query is None:
                 break
-            scores = self.model.run(query)
-            self.view.run(scores)
+            scores, runtime = self.model.run(query)
+            self.view.run(scores=scores, runtime=runtime)
         self._on_end()
 
     def _on_start(self):

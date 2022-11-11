@@ -5,9 +5,11 @@ import streamlit as st
 
 from streamlit_.api import load_api_maybe
 
+TEXT_SIZE = 80
+
 with st.sidebar:
     config = st.file_uploader('Engine', type=['yaml', 'yml'])
-    k = st.number_input('k', value=5)
+    k = st.number_input('Top-k', value=5)
 api = load_api_maybe(config)
 if api is None:
     st.stop()
@@ -28,5 +30,8 @@ with st.spinner('Searching...'):
 scores = [s for s in scores if s.score > 0]
 for i, score in enumerate(scores):
     text = api.corpus[score.id].text
+    text_too_long = len(text) > TEXT_SIZE
+    text = text[:TEXT_SIZE]
+    text = text + '...' if text_too_long else text
     st.write(f'`{i+1}. {repr(text)} [{score.score:.2f}]`')
-st.write(f'*time: {runtime:.4f}*')
+st.write(f'*time: {runtime:.4f} s.*')
