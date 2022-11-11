@@ -1,9 +1,9 @@
-from .single_file import Factory as SingleFileFactory
-from .multi_file import Factory as MultiFileFactory
+from .single_file import Builder as SingleFileBuilder
+from .multi_file import Builder as MultiFileBuilder
 
 DISPATCH = {
-    'single_file': SingleFileFactory,
-    'multi_file': MultiFileFactory,
+    'single_file': SingleFileBuilder,
+    'multi_file': MultiFileBuilder,
 }
 
 

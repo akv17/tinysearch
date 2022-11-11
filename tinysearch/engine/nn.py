@@ -6,9 +6,10 @@ from transformers import AutoTokenizer, AutoModel
 from sklearn.metrics.pairwise import cosine_similarity
 
 from .common.rank import rank_ids_by_scores
+from ..abstract import IEngine
 
 
-class Engine:
+class Engine(IEngine):
 
     @classmethod
     def create(cls, config):

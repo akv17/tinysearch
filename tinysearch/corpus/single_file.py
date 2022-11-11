@@ -1,7 +1,9 @@
 from tinysearch.data import Document, Corpus
 
+from ..abstract import ICorpusBuilder
 
-class Factory:
+
+class Builder(ICorpusBuilder):
 
     def __init__(self, path):
         self.path = path
