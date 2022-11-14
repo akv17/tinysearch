@@ -1,0 +1,10 @@
+corpus:
+  type: "single_file"
+  params:
+    path: "assets/data/pyzen.txt"
+engine:
+  dst: "assets/trained/pyzen_bm25"
+  type: "bm25"
+  params:
+    preprocessor:
+      type: "simple"

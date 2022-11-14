@@ -1,78 +1,95 @@
-import os
+"""
+Основной публичный интерфейс для взаимодействия с приложением
+"""
 
-import yaml
+import logging
 
-from .utils.logs import create_logger
-from .data import Document
-from .corpus.auto import AutoCorpus
-from .preprocessor.auto import AutoPreprocessor
-from .index.auto import AutoIndex
-from .engine.auto import AutoEngine
+from .corpus.factory import Factory as CorpusFactory
+from .engine.factory import Factory as EngineFactory
 
 
-class TinysearchAPI:
+class API:
+    """
+    Публичный интерфейс для взаимодействия с приложением aka главная точка входа.
+    Предоставляет возможность:
+        1. Загрузить корпус по конфигу
+        2. Загрузить движок по конфигу
+        3. Получить доступ к корпусу
+        4. Получить доступ к движку
+        5. Индексировать движок по конфигу и сохранить результат
+    """
 
-    def __init__(self, logger=None):
-        self.logger = logger or create_logger('tinysearch')
-
-    def train(self, config):
-        cmd = TrainCommand(config=config, logger=self.logger)
-        cmd.run()
-
-    def predict(self, src, config):
-        cmd = PredictCommand(src=src, config=config, logger=self.logger)
-        cmd.run()
-
-
-class TrainCommand:
-
-    def __init__(self, config, logger):
+    def __init__(self, config):
         self.config = config
-        self.logger = logger
+        self.logger = _create_logger(self.config)
 
-    def run(self):
-        self.logger.info('-> Training...')
-        self.logger.info(f'-> Loading corpus...')
-        corpus = AutoCorpus.create(self.config['corpus'])
-        preprocessor = AutoPreprocessor.create(self.config['preprocessor'])
-        index = AutoIndex.create(config=self.config['index'], preprocessor=preprocessor)
-        self.logger.info(f'-> Training index...')
-        index.train(corpus)
-        dst = self.config['dst']
-        os.makedirs(dst, exist_ok=True)
-        self.logger.info(f'-> Saving index: {dst}')
-        index.save(dst)
-        self.logger.info(f'-> Saving config: {dst}')
-        config_fp = os.path.join(dst, 'config.yaml')
-        config_to_save = self.config.copy()
-        config_to_save.pop('corpus')
-        config_to_save.pop('dst')
-        with open(config_fp, 'w') as f:
-            yaml.safe_dump(config_to_save, f)
-        index.save(dst)
-        self.logger.info('-> Done.')
+        self.corpus = None
+        self.engine = None
+
+    def load(self):
+        """
+        Загрузить корпус и движок по конфигу
+        :return:
+        """
+        self.load_corpus()
+        self.load_engine()
+
+    def load_corpus(self):
+        """
+        Загрузить корпус по конфигу
+        :return:
+        """
+        self.logger.info('Loading corpus...')
+        corpus_factory = CorpusFactory(self.config['corpus'])
+        corpus = corpus_factory.create()
+        self.logger.info(f'Size: {len(corpus)}')
+        self.logger.info('Done.')
+        self.corpus = corpus
+
+    def load_engine(self):
+        """
+        Загрузить движок по конфигу
+        :return:
+        """
+        self.logger.info('Loading engine...')
+        engine_factory = EngineFactory(self.config['engine'])
+        self.logger.info(f'Loading...')
+        engine = engine_factory.load()
+        self.logger.info(f'Done.')
+        self.engine = engine
+
+    def create_engine(self):
+        """
+        Создать движок с нуля по конфигу
+        :return:
+        """
+        self.logger.info('Creating engine...')
+        engine_factory = EngineFactory(self.config['engine'])
+        self.logger.info(f'Creating...')
+        engine = engine_factory.create()
+        self.logger.info(f'Done.')
+        self.engine = engine
+
+    def train(self):
+        """
+        Индексировать движок по конфигу и сохранить результат
+        :return:
+        """
+        self.load_corpus()
+        self.create_engine()
+        logger = self.logger
+        config = self.config
+        logger.info('Training engine...')
+        self.engine.train(self.corpus)
+        logger.info(f'Saving...')
+        dst = config['engine']['dst']
+        self.engine.save(dst)
+        logger.info(f'Done.')
 
 
-class PredictCommand:
-
-    def __init__(self, src, config, logger):
-        self.src = src
-        self.config = config
-        self.logger = logger
-
-    def run(self):
-        self.logger.info('-> Predicting...')
-        preprocessor = AutoPreprocessor.create(self.config['preprocessor'])
-        index = AutoIndex.load(src=self.src, config=self.config['index'], preprocessor=preprocessor)
-        engine = AutoEngine.create(config=self.config['engine'], index=index)
-        self._loop(engine)
-
-    def _loop(self, engine):
-        stop = False
-        while not stop:
-            query = input(f'---> Enter query: ').strip()
-            query = Document(key=None, text=query)
-            result = engine.predict(query)
-            for score in result:
-                print(f'\t-> {score}')
-            print()
+def _create_logger(config):
+    level = config.get('logs', 'INFO')
+    logger = logging.getLogger('api')
+    logger.setLevel(level)
+    logging.basicConfig()
+    return logger
