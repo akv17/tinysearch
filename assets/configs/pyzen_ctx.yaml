@@ -3,7 +3,7 @@ corpus:
   params:
     path: "assets/data/pyzen.txt"
 engine:
-  dst: "assets/trained/pyzen_nn"
-  type: "nn"
+  dst: "assets/trained/pyzen_ctx"
+  type: "ctx"
   params:
     checkpoint: "sentence-transformers/all-MiniLM-L6-v2"

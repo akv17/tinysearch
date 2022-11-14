@@ -3,8 +3,8 @@ corpus:
   params:
     path: "assets/data/pyzen.txt"
 engine:
-  dst: "assets/trained/pyzen_vectorized"
-  type: "vectorized"
+  dst: "assets/trained/pyzen_bow"
+  type: "bow"
   params:
     preprocessor:
       type: "simple"
