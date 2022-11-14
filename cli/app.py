@@ -21,7 +21,6 @@ def _dispatch():
 def train(config):
     config = _load_config(config)
     api = API(config)
-    api.load()
     api.train()
 
 

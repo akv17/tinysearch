@@ -11,7 +11,7 @@ from .engine.factory import Factory as EngineFactory
 class API:
     """
     Публичный интерфейс для взаимодействия с приложением aka главная точка входа.
-    Предосталвяет возможность:
+    Предоставляет возможность:
         1. Загрузить корпус по конфигу
         2. Загрузить движок по конфигу
         3. Получить доступ к корпусу
@@ -58,11 +58,25 @@ class API:
         self.logger.info(f'Done.')
         self.engine = engine
 
+    def create_engine(self):
+        """
+        Создать движок с нуля по конфигу
+        :return:
+        """
+        self.logger.info('Creating engine...')
+        engine_factory = EngineFactory(self.config['engine'])
+        self.logger.info(f'Creating...')
+        engine = engine_factory.create()
+        self.logger.info(f'Done.')
+        self.engine = engine
+
     def train(self):
         """
         Индексировать движок по конфигу и сохранить результат
         :return:
         """
+        self.load_corpus()
+        self.create_engine()
         logger = self.logger
         config = self.config
         logger.info('Training engine...')
