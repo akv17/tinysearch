@@ -70,7 +70,7 @@ class API:
         self.logger.info(f'Done.')
         self.engine = engine
 
-    def train(self):
+    def index(self):
         """
         Индексировать движок по конфигу и сохранить результат
         :return:
@@ -80,7 +80,7 @@ class API:
         logger = self.logger
         config = self.config
         logger.info('Training engine...')
-        self.engine.train(self.corpus)
+        self.engine.index(self.corpus)
         logger.info(f'Saving...')
         dst = config['engine']['dst']
         self.engine.save(dst)

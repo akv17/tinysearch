@@ -53,7 +53,7 @@ class Engine(IEngine):
         self._matrix = None
         self._ids = None
 
-    def train(self, corpus):
+    def index(self, corpus):
         texts = [self.preprocessor.run(d.text) for d in corpus]
         self.vectorizer.fit(texts)
         self._matrix = self.vectorizer.transform(texts)

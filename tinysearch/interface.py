@@ -65,7 +65,7 @@ class IEngine:
         """
 
     @abstractmethod
-    def train(self, corpus: Corpus) -> None:
+    def index(self, corpus: Corpus) -> None:
         """
         Индексирует движок на корпусе
         :param corpus: корпус

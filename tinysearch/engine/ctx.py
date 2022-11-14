@@ -43,7 +43,7 @@ class Engine(IEngine):
         self._vectors = None
         self._ids = None
 
-    def train(self, corpus):
+    def index(self, corpus):
         vectors = np.array([self.encoder.encode(d.text) for d in corpus])
         self._vectors = vectors
         self._ids = np.array(corpus.ids)

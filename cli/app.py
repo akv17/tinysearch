@@ -18,10 +18,10 @@ def _dispatch():
 
 @_dispatch.command()
 @click.argument('config')
-def train(config):
+def index(config):
     config = _load_config(config)
     api = API(config)
-    api.train()
+    api.index()
 
 
 @_dispatch.command()
