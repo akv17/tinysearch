@@ -10,12 +10,19 @@ DISPATCH = {
 class Factory:
     """
     Загружает экземпляр корпуса по конфигу.
+    Делегирует логику загрузки конкретному загрузчику под каждый доступный формат:
+        - single_file: весь корпус в одном файле, а одним документом считается одна строка
+        - multi_file: читает все файлы внутри папки, а одним документом считается один файл
     """
 
     def __init__(self, config):
         self.config = config
 
     def create(self):
+        """
+        Создает экземпляр корпуса
+        :return:
+        """
         type_ = self.config['type']
         params = self.config['params']
         factory = DISPATCH[type_]

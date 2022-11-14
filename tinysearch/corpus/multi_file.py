@@ -6,11 +6,18 @@ from ..interface import ICorpusBuilder
 
 
 class Builder(ICorpusBuilder):
+    """
+    Загружает корпус, рекурсивно обходя всю папку, где один файл считается одним документом
+    """
 
     def __init__(self, path):
         self.path = path
 
     def create(self):
+        """
+        Загружает корпус
+        :return:
+        """
         id_ = 0
         docs = []
         for cur_root, _, cur_files in os.walk(self.path):

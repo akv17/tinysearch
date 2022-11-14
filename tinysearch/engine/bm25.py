@@ -10,6 +10,10 @@ from ..interface import IEngine
 
 
 class Engine(IEngine):
+    """
+    Поисковый движок на базе метрики Okapi BM25.
+    Выполнен в матричном виде (разрежено).
+    """
 
     @classmethod
     def create(cls, config):
@@ -60,8 +64,8 @@ class Engine(IEngine):
     def train(self, corpus):
         texts = [self.preprocessor.run(d.text) for d in corpus]
         count = self.count_vectorizer.fit_transform(texts).toarray()
+        self.tfidf_vectorizer.fit(texts)
         tf = count
-        tfidf = self.tfidf_vectorizer.fit_transform(texts).toarray()
         idf = self.tfidf_vectorizer.idf_
         idf = np.expand_dims(idf, axis=0)
         len_d = tf.sum(axis=1)
