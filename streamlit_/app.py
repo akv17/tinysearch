@@ -34,4 +34,4 @@ for i, score in enumerate(scores):
     text = text[:TEXT_SIZE]
     text = text + '...' if text_too_long else text
     st.write(f'`{i+1}. {repr(text)} [{score.score:.2f}]`')
-st.write(f'*time: {runtime:.4f} s.*')
+st.caption(f'time: {runtime:.4f} s.')

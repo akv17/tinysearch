@@ -52,7 +52,7 @@ class Controller:
         self._on_end()
 
     def _on_start(self):
-        print('-> Interactive CLI session started.')
+        print('-> tinysearch')
         print('-> Type query or \'q!\' to exit.')
 
     def _on_end(self):
