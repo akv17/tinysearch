@@ -3,14 +3,14 @@ import time
 
 import streamlit as st
 
-from streamlit_.api import load_api_maybe
+from streamlit_.api import get_or_load_api
 
 TEXT_SIZE = 80
 
 with st.sidebar:
     config = st.file_uploader('Engine', type=['yaml', 'yml'])
     k = st.number_input('Top-k', value=5)
-api = load_api_maybe(config)
+api = get_or_load_api(config)
 if api is None:
     st.stop()
 

@@ -6,7 +6,7 @@ _API = None
 _FILE_NAME = None
 
 
-def load_api_maybe(file):
+def get_or_load_api(file):
     global _API
     global _FILE_NAME
     if file is None:
