@@ -23,15 +23,16 @@ if not query:
 
 with st.spinner('Searching...'):
     start = time.perf_counter()
-    scores = api.engine.search(query, k=k)
+    scores = api.search(query, k=k)
     runtime = time.perf_counter() - start
     runtime = round(runtime, 2)
 
 scores = [s for s in scores if s.score > 0]
 for i, score in enumerate(scores):
-    text = api.corpus[score.id].text
+    doc = api.get_document_by_id(score.id)
+    text = doc.text
     text_too_long = len(text) > TEXT_SIZE
     text = text[:TEXT_SIZE]
     text = text + '...' if text_too_long else text
-    st.write(f'`{i+1}. {repr(text)} [{score.score:.2f}]`')
+    st.code(f'{i+1}. {repr(text)} [{score.score:.2f}]', language=None)
 st.caption(f'time: {runtime:.4f} s.')

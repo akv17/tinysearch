@@ -86,6 +86,24 @@ class API:
         self.engine.save(dst)
         logger.info(f'Done.')
 
+    def search(self, text, k=5):
+        """
+        Выполнить поиск с помощью загруженного движка.
+        :param text: текст запроса
+        :param k: размер выдачи
+        :return:
+        """
+        rv = self.engine.search(text, k=k)
+        return rv
+
+    def get_document_by_id(self, value):
+        """
+        Получить по айди документ из загруженного корпуса
+        :param value: айди документа
+        :return:
+        """
+        return self.corpus[value]
+
 
 def _create_logger(config):
     level = config.get('logs', 'INFO')
