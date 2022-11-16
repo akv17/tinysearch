@@ -10,3 +10,6 @@ engine:
       type: "simple"
     vectorizer:
       type: "tfidf"
+      params:
+        analyzer: "char"
+        ngram_range: [2, 5]
