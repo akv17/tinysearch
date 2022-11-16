@@ -31,8 +31,8 @@ scores = [s for s in scores if s.score > 0]
 for i, score in enumerate(scores):
     doc = api.get_document_by_id(score.id)
     text = doc.text
-    text_too_long = len(text) > TEXT_SIZE
+    is_text_too_long = len(text) > TEXT_SIZE
     text = text[:TEXT_SIZE]
-    text = text + '...' if text_too_long else text
+    text = text + '...' if is_text_too_long else text
     st.code(f'{i+1}. {repr(text)} [{score.score:.2f}]', language=None)
 st.caption(f'time: {runtime:.4f} s.')

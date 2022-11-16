@@ -12,10 +12,6 @@ class Builder(ICorpusBuilder):
         self.path = path
 
     def create(self):
-        """
-        Загружает корпус
-        :return:
-        """
         with open(self.path, 'r') as f:
             lines = f.readlines()
         docs = [Document(id=str(i), text=ln.strip(), path=self.path) for i, ln in enumerate(lines) if ln.strip()]

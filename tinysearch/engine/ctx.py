@@ -12,7 +12,7 @@ from ..interface import IEngine
 class Engine(IEngine):
     """
     Поисковый движок на базе контекстных векторов.
-    Векторы строятся с помощью моделей sentence-transformers через интерфейс transformers.
+    Векторы строятся с помощью моделей `sentence-transformers` через интерфейс `transformers`.
     В качестве метрики используется косинусная близость.
     Выполнен в матричном виде (плотно).
     """

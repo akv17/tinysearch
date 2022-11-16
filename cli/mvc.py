@@ -1,7 +1,15 @@
+"""
+Графический интерфейс на базе терминала.
+Выполнен в виде простенькой интерпретации классического паттерна MVC.
+"""
+
 import time
 
 
 class Model:
+    """
+    Вызывает и обрабатывает логику поиска.
+    """
 
     def __init__(self, api, k=5):
         self.api = api
@@ -16,6 +24,9 @@ class Model:
 
 
 class View:
+    """
+    Отображает результаты поиска.
+    """
 
     def __init__(self, api, text_size=80):
         self.api = api
@@ -28,14 +39,18 @@ class View:
         for i, score in enumerate(scores):
             doc = self.api.get_document_by_id(score.id)
             text = doc.text
-            text_too_long = len(text) > self.text_size
+            is_text_too_long = len(text) > self.text_size
             text = text[:self.text_size]
-            text = text + '...' if text_too_long else text
+            text = text + '...' if is_text_too_long else text
             print(f'\t{i+1}. {repr(text)} [{score.score:.2f}]')
-        print(f'time: {runtime:.4f} s.')
+        print(f'\t_______________')
+        print(f'\ttime: {runtime:.4f} s.')
 
 
 class Controller:
+    """
+    Управляет верхнеуровневой логикой.
+    """
 
     def __init__(self, model, view):
         self.model = model

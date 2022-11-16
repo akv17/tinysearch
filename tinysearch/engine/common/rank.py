@@ -8,7 +8,7 @@ def rank_ids_by_scores(ids, scores, k=1):
     :param ids: список айди
     :param scores: список значений метрики
     :param k: величина k
-    :return:
+    :return: List[Score]
     """
     mask = np.argsort(scores)
     mask = mask[-k:][::-1]

@@ -14,10 +14,6 @@ class Builder(ICorpusBuilder):
         self.path = path
 
     def create(self):
-        """
-        Загружает корпус
-        :return:
-        """
         id_ = 0
         docs = []
         for cur_root, _, cur_files in os.walk(self.path):

@@ -22,10 +22,6 @@ class Factory:
         self.config = config
 
     def create(self):
-        """
-        Создает экземпляр движка с нуля по конфигу
-        :return:
-        """
         type_ = self.config['type']
         engine = DISPATCH[type_]
         config = self.config['params']
@@ -33,10 +29,6 @@ class Factory:
         return engine
 
     def load(self):
-        """
-        Загружает экземпляр проиндексированного движка с нуля по конфигу
-        :return:
-        """
         type_ = self.config['type']
         engine = DISPATCH[type_]
         dst = self.config['dst']
